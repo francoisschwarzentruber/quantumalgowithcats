@@ -22,7 +22,7 @@
 		bit = 0 <img class="qubit" src="cat1_dead.png"> </example>
 	<example> bit = 1 <img class="qubit" src="cat1_alive.png"></example>
 
-	<h3>Qubits</h3>
+	<h2>Qubits</h2>
 	Qubits are quantum bits. They are also represented by cats, but they can be in a superposed state. For instance:
 
 
@@ -44,7 +44,7 @@
 	</example>
 
 
-	<h3>Two qubits</h3>
+	<h2>Two qubits</h2>
 
 	<example>
 		<img id="example_superposition_2_bit1" src="cat1_dead.png"><img id="example_superposition_2_bit2"
@@ -62,7 +62,7 @@
 	</example>
 
 
-	<h3>Note: in fact numbers are complex numbers</h3>
+	<h2>Note: in fact scalars (i.e. numbers) are complex numbers</h2>
 	For instance, if the scalar is negative,
 	images are turned.
 
@@ -70,105 +70,240 @@
 		<img src="cat1_alive_down.png"> may represent the superposition -|1>.
 	</example>
 
+
+	<h2>Hadamard gates</h2>
+
+	<a href="http://en.wikipedia.org/wiki/Hadamard_transform">Hadamard gates</a> enables to compute uniform
+	superposition of all physical states.
+
+	<table>
+		<tr>
+			<td>
+				<img class="qubit" src="cat1_dead.png">
+			</td>
+			<td>
+				<img src="gateH.png"><br />
+			</td>
+			<td>
+				<img class="qubit" id="example_superpositionH0" src="cat1_dead.png"><br />
+			</td>
+		</tr>
+	</table>
+
+
+	<table>
+		<tr>
+			<td>
+				<img class="qubit" src="cat1_alive.png">
+			</td>
+			<td>
+				<img src="gateH.png"><br />
+			</td>
+			<td>
+				<img class="qubit" id="example_superpositionH1" src="cat1_dead.png"><br />
+			</td>
+		</tr>
+	</table>
+
+
+	<h2>The problem of finding a specific solution</h2>
+
+	Let f be a
+	function from \(\{0, 1\}^n\) to {0, 1}. Here n = 4. We pose \(N = 2^n\). Here N =
+	16. There is a unique element x such that f(x) = 1.
+
+
+
+	<example>In the rest of this paper, consider x = 0101 to be that unique element, i.e.
+
+		<br />
+		<img class="qubit" src="cat1_dead.png"><br />
+		<img class="qubit" src="cat2_alive.png"><br />
+		<img class="qubit" src="cat3_dead.png"><br />
+		<img class="qubit" src="cat4_alive.png">.
+	</example>
+
+	The aim is to find x without any knowledge on f. More precisely, the problem that we will solve is defined
+	as follows:
+	<br />
+	- input: a black box Uf that computes f;
+	<br /> - output: x such that f(x) = 1.
+
+
+
+	<h2>A gate for Uf</h2>
+
+	The black box is constructed so that it preserves all physical states except |0101>, which is mapped to -|0101>.
+	We suppose that \(U_f(x) = -x\) when f(x) = 1 and Uf(x) = x for all other x.
+
+
+	<table>
+		<tr>
+			<td>
+				<img class="qubit" src="cat1_dead.png"><br />
+				<img class="qubit" src="cat2_alive.png"><br />
+				<img class="qubit" src="cat3_dead.png"><br />
+				<img class="qubit" src="cat4_alive.png">
+			</td>
+			<td>
+				<img class="gatesize4" src="gatef.png">
+			</td>
+			<td>
+				<img class="qubit" src="cat1_dead_down.png"><br />
+				<img class="qubit" src="cat2_alive_down.png"><br />
+				<img class="qubit" src="cat3_dead_down.png"><br />
+				<img class="qubit" src="cat4_alive_down.png">
+			</td>
+		</tr>
+	</table>
+
+For all other elements, the gate outputs its input.
+
+	<table>
+		<tr>
+			<td>
+				<img class="qubit" src="cat1_alive.png"><br />
+				<img class="qubit" src="cat2_alive.png"><br />
+				<img class="qubit" src="cat3_dead.png"><br />
+				<img class="qubit" src="cat4_alive.png">
+			</td>
+			<td>
+				<img class="gatesize4" src="gatef.png">
+			</td>
+			<td>
+				<img class="qubit" src="cat1_alive.png"><br />
+				<img class="qubit" src="cat2_alive.png"><br />
+				<img class="qubit" src="cat3_dead.png"><br />
+				<img class="qubit" src="cat4_alive.png">
+			</td>
+		</tr>
+	</table>
+
+
+
+	<table>
+		<tr>
+			<td>
+				<img class="qubit" src="cat1_dead.png"><br />
+				<img class="qubit" src="cat2_alive.png"><br />
+				<img class="qubit" src="cat3_dead.png"><br />
+				<img class="qubit" src="cat4_dead.png">
+			</td>
+			<td>
+				<img class="gatesize4" src="gatef.png">
+			</td>
+			<td>
+				<img class="qubit" src="cat1_dead.png"><br />
+				<img class="qubit" src="cat2_alive.png"><br />
+				<img class="qubit" src="cat3_dead.png"><br />
+				<img class="qubit" src="cat4_dead.png">
+			</td>
+		</tr>
+	</table>
+
+
+
+
 	<h2>Grover's algorithm</h2>
 
-
+Grover's algorithm solves the problem of finding a specific solution. The circuit of that algorithm is as follows. 	Grover's starts with 0000. Then we apply Hadamar gates to obtain a uniform superposition of all physical states.  
+We then repete a sequence of Uf and D (explained below). After an appropriate number of repetitions (not too many, not little), the probability to read our unique element is very high, see (*). 
 
 
 	<table>
 		<tbody>
 			<tr>
 				<td>
-					<img id="superposition0_bit1" style="" src="cat1_alive.png"><br />
-					<img id="superposition0_bit2" src="cat2_alive.png"><br />
-					<img id="superposition0_bit3" src="cat3_alive.png"><br />
-					<img id="superposition0_bit4" src="cat4_alive.png">
+					<img class="qubit" id="superposition0_bit1" style="" src="cat1_alive.png"><br />
+					<img class="qubit" id="superposition0_bit2" src="cat2_alive.png"><br />
+					<img class="qubit" id="superposition0_bit3" src="cat3_alive.png"><br />
+					<img class="qubit" id="superposition0_bit4" src="cat4_alive.png">
 				</td>
 				<td>
-					<img src="gateH.png"><br />
-					<img src="gateH.png"><br />
-					<img src="gateH.png"><br />
-					<img src="gateH.png">
+					<img class="gatesize1"  src="gateH.png"><br />
+					<img class="gatesize1" src="gateH.png"><br />
+					<img class="gatesize1" src="gateH.png"><br />
+					<img class="gatesize1" src="gateH.png">
 				</td>
 				<td>
-					<img id="superposition1_bit1" src="cat1_alive.png"><br />
-					<img id="superposition1_bit2" src="cat2_alive.png"><br />
-					<img id="superposition1_bit3" src="cat3_alive.png"><br />
-					<img id="superposition1_bit4" src="cat4_alive.png">
+					<img class="qubit" id="superposition1_bit1" src="cat1_alive.png"><br />
+					<img class="qubit" id="superposition1_bit2" src="cat2_alive.png"><br />
+					<img class="qubit" id="superposition1_bit3" src="cat3_alive.png"><br />
+					<img class="qubit" id="superposition1_bit4" src="cat4_alive.png">
 				</td>
 				<td>
-					<img src="gatef.png">
+					<img class="gatesize4" src="gatef.png">
 				</td>
 				<td>
-					<img id="superposition2_bit1" src="cat1_alive.png"><br />
-					<img id="superposition2_bit2" src="cat2_alive.png"><br />
-					<img id="superposition2_bit3" src="cat3_alive.png"><br />
-					<img id="superposition2_bit4" src="cat4_alive.png">
+					<img class="qubit" id="superposition2_bit1" src="cat1_alive.png"><br />
+					<img class="qubit" id="superposition2_bit2" src="cat2_alive.png"><br />
+					<img class="qubit" id="superposition2_bit3" src="cat3_alive.png"><br />
+					<img class="qubit" id="superposition2_bit4" src="cat4_alive.png">
 				</td>
 				<td>
-					<img src="gateD.png">
+					<img class="gatesize4" src="gateD.png">
 				</td>
 				<td>
-					<img id="superposition3_bit1" src="cat1_alive.png"><br />
-					<img id="superposition3_bit2" src="cat2_alive.png"><br />
-					<img id="superposition3_bit3" src="cat3_alive.png"><br />
-					<img id="superposition3_bit4" src="cat4_alive.png">
+					<img class="qubit" id="superposition3_bit1" src="cat1_alive.png"><br />
+					<img class="qubit" id="superposition3_bit2" src="cat2_alive.png"><br />
+					<img class="qubit" id="superposition3_bit3" src="cat3_alive.png"><br />
+					<img class="qubit" id="superposition3_bit4" src="cat4_alive.png">
 				</td>
 				<td>
-					<img src="gatef.png">
+					<img class="gatesize4" src="gatef.png">
 				</td>
 				<td>
-					<img id="superposition4_bit1" src="cat1_alive.png"><br />
-					<img id="superposition4_bit2" src="cat2_alive.png"><br />
-					<img id="superposition4_bit3" src="cat3_alive.png"><br />
-					<img id="superposition4_bit4" src="cat4_alive.png">
+					<img class="qubit" id="superposition4_bit1" src="cat1_alive.png"><br />
+					<img class="qubit" id="superposition4_bit2" src="cat2_alive.png"><br />
+					<img class="qubit" id="superposition4_bit3" src="cat3_alive.png"><br />
+					<img class="qubit" id="superposition4_bit4" src="cat4_alive.png">
 				</td>
 				<td>
-					<img src="gateD.png">
+					<img class="gatesize4" src="gateD.png">
 				</td>
 				<td>
-					<img id="superposition5_bit1" src="cat1_alive.png"><br />
-					<img id="superposition5_bit2" src="cat2_alive.png"><br />
-					<img id="superposition5_bit3" src="cat3_alive.png"><br />
-					<img id="superposition5_bit4" src="cat4_alive.png">
+					<img class="qubit" id="superposition5_bit1" src="cat1_alive.png"><br />
+					<img class="qubit" id="superposition5_bit2" src="cat2_alive.png"><br />
+					<img class="qubit" id="superposition5_bit3" src="cat3_alive.png"><br />
+					<img class="qubit" id="superposition5_bit4" src="cat4_alive.png">
 				</td>
 				<td>
-					<img src="gatef.png">
+					<img class="gatesize4" src="gatef.png">
 				</td>
 				<td>
-					<img id="superposition6_bit1" src="cat1_alive.png"><br />
-					<img id="superposition6_bit2" src="cat2_alive.png"><br />
-					<img id="superposition6_bit3" src="cat3_alive.png"><br />
-					<img id="superposition6_bit4" src="cat4_alive.png">
+					<img class="qubit" id="superposition6_bit1" src="cat1_alive.png"><br />
+					<img class="qubit" id="superposition6_bit2" src="cat2_alive.png"><br />
+					<img class="qubit" id="superposition6_bit3" src="cat3_alive.png"><br />
+					<img class="qubit" id="superposition6_bit4" src="cat4_alive.png">
 				</td>
 				<td>
-					<img src="gateD.png">
+					<img class="gatesize4" src="gateD.png">
 				</td>
 				<td>
 					(*)
-					<img id="superposition7_bit1" src="cat1_alive.png"><br />
-					<img id="superposition7_bit2" src="cat2_alive.png"><br />
-					<img id="superposition7_bit3" src="cat3_alive.png"><br />
-					<img id="superposition7_bit4" src="cat4_alive.png"><br />
+					<img class="qubit" id="superposition7_bit1" src="cat1_alive.png"><br />
+					<img class="qubit" id="superposition7_bit2" src="cat2_alive.png"><br />
+					<img class="qubit" id="superposition7_bit3" src="cat3_alive.png"><br />
+					<img class="qubit" id="superposition7_bit4" src="cat4_alive.png"><br />
 				</td>
 				<td>
-					<img src="gatef.png">
+					<img class="gatesize4" src="gatef.png">
 				</td>
 				<td>
-					<img id="superposition8_bit1" src="cat1_alive.png"><br />
-					<img id="superposition8_bit2" src="cat2_alive.png"><br />
-					<img id="superposition8_bit3" src="cat3_alive.png"><br />
-					<img id="superposition8_bit4" src="cat4_alive.png">
+					<img class="qubit" id="superposition8_bit1" src="cat1_alive.png"><br />
+					<img class="qubit" id="superposition8_bit2" src="cat2_alive.png"><br />
+					<img class="qubit" id="superposition8_bit3" src="cat3_alive.png"><br />
+					<img class="qubit" id="superposition8_bit4" src="cat4_alive.png">
 				</td>
 				<td>
-					<img src="gateD.png">
+					<img class="gatesize4" src="gateD.png">
 				</td>
 				<td>
 					(**)
-					<img id="superposition9_bit1" src="cat1_alive.png"><br />
-					<img id="superposition9_bit2" src="cat2_alive.png"><br />
-					<img id="superposition9_bit3" src="cat3_alive.png"><br />
-					<img id="superposition9_bit4" src="cat4_alive.png"><br />
+					<img class="qubit" id="superposition9_bit1" src="cat1_alive.png"><br />
+					<img class="qubit" id="superposition9_bit2" src="cat2_alive.png"><br />
+					<img class="qubit" id="superposition9_bit3" src="cat3_alive.png"><br />
+					<img class="qubit" id="superposition9_bit4" src="cat4_alive.png"><br />
 				</td>
 			</tr>
 		</tbody>
@@ -176,131 +311,19 @@
 
 
 
-
-
-
-	<h3>Few words about Grover's algorithm</h3>
-	Grover's algorithm is solving the following problem. Let f be a
-	function from {0, 1}^n to {0, 1}. Here n = 4. We pose N = 2^n. Here N =
-	16. There is a unique element x such that f(x) = 1. In our example, x is 0101 that is
-
-
-	<img src="cat1_dead.png">
-	<img src="cat2_alive.png">
-	<img src="cat3_dead.png">
-	<img src="cat4_alive.png">.</br>
-	</br></br>
-
-	The aim is to find x without any knowledge on f. More precisely, the problem solved by Grover's algorithm is defined
-	as follows:
-	</br>
-	- input: a black box Uf that computes f;
-	</br> - output: x such that f(x) = 1.
-	<br /><br />
-	Grover's starts with 0000, that is <img src="cat1_dead.png"><img src="cat2_dead.png"><img src="cat3_dead.png"><img
-		src="cat4_dead.png">. Then we apply <a href="http://en.wikipedia.org/wiki/Hadamard_transform">Hadamard gates</a>
-	in order to obtain a uniform superposition of all physical states. Then
-	we apply the gate Uf. It preserves all physical states except |0101>. The
-	state |0101> is mapped to -|0101>.
-
-	</br></br></br>
-
-	Examples:
-	</br></br>
-
-	<table>
-		<tr>
-			<td>
-				<img src="cat1_alive.png"><br />
-				<img src="cat2_alive.png"><br />
-				<img src="cat3_dead.png"><br />
-				<img src="cat4_alive.png">
-			</td>
-			<td>
-				<img src="gatef.png">
-			</td>
-			<td>
-				<img src="cat1_alive.png"><br />
-				<img src="cat2_alive.png"><br />
-				<img src="cat3_dead.png"><br />
-				<img src="cat4_alive.png">
-			</td>
-		</tr>
-	</table>
-
-	</br></br>
-
-	<table>
-		<tr>
-			<td>
-				<img src="cat1_dead.png"><br />
-				<img src="cat2_alive.png"><br />
-				<img src="cat3_dead.png"><br />
-				<img src="cat4_dead.png">
-			</td>
-			<td>
-				<img src="gatef.png">
-			</td>
-			<td>
-				<img src="cat1_dead.png"><br />
-				<img src="cat2_alive.png"><br />
-				<img src="cat3_dead.png"><br />
-				<img src="cat4_dead.png">
-			</td>
-		</tr>
-	</table>
-
-	</br></br>
-
-	<table>
-		<tr>
-			<td>
-				<img src="cat1_dead.png"><br />
-				<img src="cat2_alive.png"><br />
-				<img src="cat3_dead.png"><br />
-				<img src="cat4_alive.png">
-			</td>
-			<td>
-				<img src="gatef.png">
-			</td>
-			<td>
-				<img src="cat1_dead_down.png"><br />
-				<img src="cat2_alive_down.png"><br />
-				<img src="cat3_dead_down.png"><br />
-				<img src="cat4_alive_down.png">
-			</td>
-		</tr>
-	</table>
-
-
-
-
-
-
-
-
-
-
-	Then D is the Grover diffusion
+	It remains to describe D and to see what is the optimal number of repetition of Uf D. Actually, D is the Grover diffusion
 	operator that amplifies the unique state that has a negative scalar and put a positive scalar on it that is stricly
 	greater in norm that the previous scalar. The other states are such that their probability are lower. In other
 	words, the state |0101> is amplified.
-
-
 	When we then apply again the Uf operator, we continue to negate the scalar of |0101> and the other scalars are kept
 	equal. Then D continues to amply more and more the scalar of |0101> in norm.
 	After some iterations of Uf
 	and D, we may measure the qubits and obtain |0101> with a probability
 	higher than 1/2: at (*) in the circuit the measure is ideal.
-	<br /><br /><br />
-	Warning: if we do too much iterations, then the probability is then again decreasing. For instance, (**) in the
-	circuit is already too late.
-	<br /><br />
-
 
 	<script>
 		//frames per second
-		var FPS = 5;
+		var FPS = 10;
 
 
 		/*returns a superposition of 4 qubits where each state has probability 1/rac 16*/
@@ -386,25 +409,14 @@
 		superpositions[8] = generateStateWithMagicElement(-a(3), b(3));
 		superpositions[9] = generateStateWithMagicElement(a(4), b(4));
 
-
+		function randomBit() {
+			return Math.random() < 0.5;
+		}
 
 
 		/*returns "_down" if the weight of the state is negative and "" else*/
-		function downifnegative(state) {
-			if (state.alpha < 0)
-				return "_down";
-			else
-				return "";
-		}
-
-
-
-		function getAliveOrDead(bit) {
-			if (bit)
-				return "_alive";
-			else
-				return "_dead";
-		}
+		function downifnegative(state) { return (state.alpha < 0) ? "_down" : ""; }
+		function getAliveOrDead(bit) { return bit ? "_alive" : "_dead"; }
 
 		/*the loop of the animation*/
 		function loop() {
@@ -424,7 +436,17 @@
 			}
 
 			/*we update the superpositions in the explanation*/
-			window.document.getElementById("example_superposition").src = "cat1" + getAliveOrDead(Math.random() < 0.5) + ".png";
+			document.getElementById("example_superposition").src = "cat1" + getAliveOrDead(Math.random() < 0.5) + ".png";
+			document.getElementById("example_superpositionH0").src = "cat1" + getAliveOrDead(Math.random() < 0.5) + ".png";
+			{
+				const b = randomBit();
+				if(b)
+				document.getElementById("example_superpositionH1").src = "cat1" + getAliveOrDead(1) + "_down" + ".png";
+				else
+				document.getElementById("example_superpositionH1").src = "cat1" + getAliveOrDead(0) + ".png";
+			}
+
+
 			window.document.getElementById("example_superposition_1434").src = "cat1" + getAliveOrDead(Math.random() < 0.75) + ".png";
 
 			var b = Math.random() < 0.5;

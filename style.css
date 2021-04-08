@@ -2,9 +2,17 @@
     height: 64px;
 }
 
+.gatesize1 {
+    height: 64px;
+}
+
+.gatesize4 {
+    height: 256px;
+}
 
 example {
     margin: 32px;
     display: block;
     background: rgb(255, 255, 192);
 }
+
