@@ -1,0 +1,10 @@
+.qubit {
+    height: 64px;
+}
+
+
+example {
+    margin: 32px;
+    display: block;
+    background: rgb(255, 255, 192);
+}
