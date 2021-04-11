@@ -3,15 +3,15 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>Quantum computing explained with cats</title>
 	<script type="text/javascript" src="distribution.js"></script>
 	<script type="text/javascript"
-		src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+		src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 	<link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
 <body>
 	<h1>Quantum computing explained with cats</h1>
-
 
 	$$\newcommand{\ket}[1]{\mid#1 \rangle}$$
 
@@ -24,8 +24,6 @@
 
 	<h2>Qubits</h2>
 	Qubits are quantum bits. They are also represented by cats, but they can be in a superposed state. For instance:
-
-
 
 	<example> <img class="qubit" src="cat1_dead.png"> is the qubit equal to 0. This state is denoted by |0>.</example>
 	<example> <img class="qubit" src="cat1_alive.png"> is the qubit equal to |1>.</example>
@@ -58,7 +56,7 @@
 			href="http://en.wikipedia.org/wiki/Bell_state">Bell state</a>: it may be the
 		superposition $$\frac 1 {\sqrt 2} (\ket {00} + \ket {11})$$ where we have |00> with probability 1/2 and |11>
 		with
-		probability 1/2. There is <a href="http://en.wikipedia.org/wiki/Quantum_entanglement">entanglement</a>.
+		probability 1/2. There is <a href="https://en.wikipedia.org/wiki/Quantum_entanglement">entanglement</a>.
 	</example>
 
 
@@ -73,7 +71,7 @@
 
 	<h2>Hadamard gates</h2>
 
-	<a href="http://en.wikipedia.org/wiki/Hadamard_transform">Hadamard gates</a> enables to compute uniform
+	<a href="https://en.wikipedia.org/wiki/Hadamard_transform">Hadamard gates</a> enables to compute uniform
 	superposition of all physical states.
 
 	<table>
@@ -157,7 +155,7 @@
 		</tr>
 	</table>
 
-For all other elements, the gate outputs its input.
+	For all other elements, the gate outputs its input.
 
 	<table>
 		<tr>
@@ -206,8 +204,12 @@ For all other elements, the gate outputs its input.
 
 	<h2>Grover's algorithm</h2>
 
-Grover's algorithm solves the problem of finding a specific solution. The circuit of that algorithm is as follows. 	Grover's starts with 0000. Then we apply Hadamar gates to obtain a uniform superposition of all physical states.  
-We then repete a sequence of Uf and D (explained below). After an appropriate number of repetitions (not too many, not little), the probability to read our unique element is very high, see (*). 
+	<a href="https://en.wikipedia.org/wiki/Grover's_algorithm">Grover's algorithm</a> solves the problem of finding a specific solution (see also <a href="https://xlinux.nist.gov/dads/HTML/groversAlgo.html">this link</a>).
+	The circuit of that algorithm is as follows.
+	Grover's starts with 0000.
+	Then we apply Hadamar gates to obtain a uniform superposition of all physical states.
+	We then repete a sequence of Uf and D (explained below).
+	After an appropriate number of repetitions (not too many, not little), the probability to read our unique element is very high, see (*). 
 
 
 	<table>
@@ -322,11 +324,10 @@ We then repete a sequence of Uf and D (explained below). After an appropriate nu
 	higher than 1/2: at (*) in the circuit the measure is ideal.
 
 	<script>
-		//frames per second
+		// frames per second
 		var FPS = 10;
 
-
-		/*returns a superposition of 4 qubits where each state has probability 1/rac 16*/
+		// Returns a superposition of 4 qubits where each state has probability 1/rac 16
 		function generateHnsuperposition() {
 			superposition = new Distribution();
 			for (var b1 = 0; b1 <= 1; b1++)
@@ -338,13 +339,10 @@ We then repete a sequence of Uf and D (explained below). After an appropriate nu
 			return superposition;
 		}
 
-		/*the unique element x such that f(x) = 1*/
+		// the unique element x such that f(x) = 1
 		var magicElement = { bit1: 0, bit2: 1, bit3: 0, bit4: 1 };
 
-
-
-
-		/*generate the state where the magic Element is weighted by a and other elements are weighted by b*/
+		// generate the state where the magic Element is weighted by a and other elements are weighted by b
 		function generateStateWithMagicElement(a, b) {
 			superposition = new Distribution();
 			for (var b1 = 0; b1 <= 1; b1++)
@@ -366,37 +364,30 @@ We then repete a sequence of Uf and D (explained below). After an appropriate nu
 		}
 
 
-		/*generate the superposition where the state is completely determined (its weight = 1)*/
+		// generate the superposition where the state is completely determined (its weight = 1)
 		function generateSuperpositionUniqueState(b1, b2, b3, b4) {
 			superposition = new Distribution([]);
 			superposition.push({ bit1: b1, bit2: b2, bit3: b3, bit4: b4, alpha: 1 }, 1);
 			return superposition;
 		}
 
-
-
-
-		/*parameters of Grover's algorithm*/
+		// parameters of Grover's algorithm
 		var N = 16; //2^(nb of qubits)
 		var theta = Math.asin(1 / Math.sqrt(N));
 
-		/*a(k) and b(k) are the weight of respectively the magic element and the others elements in the superpositions of the Grover's algorithm*/
+		// a(k) and b(k) are the weight of respectively the magic element and the others elements in the superpositions of the Grover's algorithm
 		function a(k) {
 			return Math.sin((2 * k + 1) * theta);
 		}
-
 
 		function b(k) {
 			return (1 / Math.sqrt(N - 1)) * Math.cos((2 * k + 1) * theta);
 		}
 
-
-
-
 		//alert(a(0));
 		//alert(b(0));
 
-		/*the superpositions in the circuit*/
+		// the superpositions in the circuit
 		var superpositions = new Array();
 		superpositions[0] = generateSuperpositionUniqueState(0, 0, 0, 0);
 		superpositions[1] = generateHnsuperposition();
@@ -414,13 +405,13 @@ We then repete a sequence of Uf and D (explained below). After an appropriate nu
 		}
 
 
-		/*returns "_down" if the weight of the state is negative and "" else*/
+		// returns "_down" if the weight of the state is negative and "" else
 		function downifnegative(state) { return (state.alpha < 0) ? "_down" : ""; }
 		function getAliveOrDead(bit) { return bit ? "_alive" : "_dead"; }
 
-		/*the loop of the animation*/
+		// the loop of the animation
 		function loop() {
-			/*we update all the superpositions in the circuit*/
+			// we update all the superpositions in the circuit
 			for (var i = 0; i <= 9; i++) {
 				state = superpositions[i].peekRandom();
 
@@ -435,7 +426,7 @@ We then repete a sequence of Uf and D (explained below). After an appropriate nu
 
 			}
 
-			/*we update the superpositions in the explanation*/
+			// we update the superpositions in the explanation
 			document.getElementById("example_superposition").src = "cat1" + getAliveOrDead(Math.random() < 0.5) + ".png";
 			document.getElementById("example_superpositionH0").src = "cat1" + getAliveOrDead(Math.random() < 0.5) + ".png";
 			{
@@ -445,7 +436,6 @@ We then repete a sequence of Uf and D (explained below). After an appropriate nu
 				else
 				document.getElementById("example_superpositionH1").src = "cat1" + getAliveOrDead(0) + ".png";
 			}
-
 
 			window.document.getElementById("example_superposition_1434").src = "cat1" + getAliveOrDead(Math.random() < 0.75) + ".png";
 
@@ -459,7 +449,6 @@ We then repete a sequence of Uf and D (explained below). After an appropriate nu
 		}
 
 		loop();
-
 	</script>
 
 </body>
